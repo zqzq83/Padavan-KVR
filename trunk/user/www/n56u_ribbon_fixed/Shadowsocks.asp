@@ -1707,7 +1707,7 @@
 															</select>
 														</td>
 													</tr>
-													<!--
+
 													<tr>
 														<th>加载chinadns-ng(仅绕过模式生效)</th>
 														<td>
@@ -1750,7 +1750,7 @@
 															</select>
 														</td>
 													</tr> 
-													-->
+												
 													<tr id="row_tunnel_forward" style="display:none;">
 														<th width="50%">国外DNS</th>
 														<td>
