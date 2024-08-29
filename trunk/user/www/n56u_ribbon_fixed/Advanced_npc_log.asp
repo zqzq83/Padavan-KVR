@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><#Web_Title#> - <#menu5_34#></title>
+<title><#Web_Title#> - NPC</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="-1">
@@ -10,45 +10,17 @@
 <link rel="icon" href="images/favicon.png">
 <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="/bootstrap/css/main.css">
-<link rel="stylesheet" type="text/css" href="/bootstrap/css/engage.itoggle.css">
 
 <script type="text/javascript" src="/jquery.js"></script>
-<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/bootstrap/js/engage.itoggle.min.js"></script>
 <script type="text/javascript" src="/state.js"></script>
-<script type="text/javascript" src="/general.js"></script>
-<script type="text/javascript" src="/itoggle.js"></script>
 <script type="text/javascript" src="/popup.js"></script>
-<script type="text/javascript" src="/help.js"></script>
-
 <script>
-var $j = jQuery.noConflict();
-
-$j(document).ready(function(){
-	var textArea = E('textarea');
-	textArea.scrollTop = textArea.scrollHeight;
-});
-
 function initial(){
-	var id_menu = 9;
 	show_banner(2);
-	if(get_ap_mode()){
-		id_menu = id_menu-4;
-	}
-	if(!found_app_scutclient()){
-		id_menu = id_menu-1;
-	}
-	if(!found_app_mentohust()){
-		id_menu = id_menu-1;
-	}
-	if(!found_app_frp()){
-		id_menu = id_menu-1;
-	}
-	show_menu(5,10,id_menu);
+	show_menu(5,10,7);
 	show_footer();
 }
 </script>
-
 <style>
 .nav-tabs > li > a {
     padding-right: 6px;

@@ -1703,7 +1703,7 @@
 															<select name="pdnsd_enable" id="pdnsd_enable" class="input"
 																style="width: 200px;" onchange="switch_dns()">
 																<option value="0">使用dns2tcp查询</option>
-																<option value="1">使用其它服务器查询</option>
+															<!--<option value="1">使用其它服务器查询</option>-->
 															</select>
 														</td>
 													</tr>
@@ -1756,9 +1756,9 @@
 														<td>
 															<select name="tunnel_forward" class="input"
 																style="width: 200px;">
-																<option value="8.8.4.4#53">Google Public DNS (8.8.4.4)
-																</option>
 																<option value="8.8.8.8#53">Google Public DNS (8.8.8.8)
+																</option>																
+																<option value="8.8.4.4#53">Google Public DNS (8.8.4.4)
 																</option>
 																<option value="208.67.222.222#53">OpenDNS
 																	(208.67.222.222)</option>
@@ -2712,11 +2712,11 @@
 												<table width="100%" cellpadding="4" cellspacing="0" class="table">
 													<tr>
 														<th colspan="2" style="background-color: #E3E3E3;">
-															说明:</th>
+															版本说明:</th>
 													</tr>
 													<tr>
 														<th width="100%">
-															只支持gfwlist模式，其他模式测试有问题，都去掉了！
+															只支持gfwlist模式，其他模式有问题，屏蔽掉了！
 														</th>
 													</tr>
 												</table>

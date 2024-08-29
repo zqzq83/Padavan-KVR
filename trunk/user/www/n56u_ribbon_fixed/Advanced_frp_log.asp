@@ -17,7 +17,7 @@
 <script type="text/javascript" src="/popup.js"></script>
 <script>
 function initial(){
-	show_banner(1);
+	show_banner(2);
 	show_menu(5,10,6);
 	show_footer();
 }
