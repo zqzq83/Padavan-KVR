@@ -2,32 +2,59 @@
 <html>
 
 <head>
-<title><#Web_Title#> - frp</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="-1">
+    <title>
+        <#Web_Title#> - <#menu5_25_1#>
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
 
-<link rel="shortcut icon" href="images/favicon.ico">
-<link rel="icon" href="images/favicon.png">
-<link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="/bootstrap/css/main.css">
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="icon" href="images/favicon.png">
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/engage.itoggle.css">
 
-<script type="text/javascript" src="/jquery.js"></script>
-<script type="text/javascript" src="/state.js"></script>
-<script type="text/javascript" src="/popup.js"></script>
-<script>
-function initial(){
-	show_banner(1);
-	show_menu(5,10,6);
-	show_footer();
-}
-</script>
-<style>
-.nav-tabs > li > a {
-    padding-right: 6px;
-    padding-left: 6px;
-}
-</style>
+    <script type="text/javascript" src="/jquery.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/engage.itoggle.min.js"></script>
+    <script type="text/javascript" src="/state.js"></script>
+    <script type="text/javascript" src="/general.js"></script>
+    <script type="text/javascript" src="/itoggle.js"></script>
+    <script type="text/javascript" src="/popup.js"></script>
+    <script type="text/javascript" src="/help.js"></script>
+
+    <script>
+        var $j = jQuery.noConflict();
+
+        $j(document).ready(function () {
+            var textArea = E('textarea');
+            textArea.scrollTop = textArea.scrollHeight;
+        });
+
+        function initial() {
+            var id_menu = 8;
+            show_banner(2);
+            if (get_ap_mode()) {
+                id_menu = id_menu - 4;
+            }
+            if (!found_app_scutclient()) {
+                id_menu = id_menu - 1;
+            }
+            if (!found_app_mentohust()) {
+                id_menu = id_menu - 1;
+            }
+            show_menu(5, 10, id_menu);
+            show_footer();
+        }
+    </script>
+
+    <style>
+        .nav-tabs>li>a {
+            padding-right: 6px;
+            padding-left: 6px;
+        }
+    </style>
 </head>
 
 <body onload="initial();" onunLoad="return unload_body();">
@@ -70,7 +97,9 @@ function initial(){
                     <div class="row-fluid">
                         <div class="span12">
                             <div class="box well grad_colour_dark_blue">
-                               <h2 class="box_head round_top"><#menu5_7#> - <#menu5_7_9#></h2>
+                                <h2 class="box_head round_top">
+                                    <#menu5_7#> - <#menu5_7_9#>
+                                </h2>
                                 <div class="round_bottom">
                                     <div class="row-fluid">
                                         <div id="tabMenu" class="submenuBlock"></div>
