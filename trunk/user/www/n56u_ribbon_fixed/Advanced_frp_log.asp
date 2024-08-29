@@ -13,11 +13,12 @@
 <link rel="stylesheet" type="text/css" href="/bootstrap/css/main.css">
 
 <script type="text/javascript" src="/jquery.js"></script>
+<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/state.js"></script>
 <script type="text/javascript" src="/popup.js"></script>
 <script>
 function initial(){
-	show_banner(2);
+	show_banner(1);
 	show_menu(5,10,6);
 	show_footer();
 }
@@ -30,21 +31,17 @@ function initial(){
 </style>
 </head>
 
-<body onload="initial();" onunLoad="return unload_body();">
+<body onload="initial();">
 
-    <div class="wrapper">
-        <div class="container-fluid" style="padding-right: 0px">
-            <div class="row-fluid">
-                <div class="span3">
-                    <center>
-                        <div id="logo"></div>
-                    </center>
-                </div>
-                <div class="span9">
-                    <div id="TopBanner"></div>
-                </div>
+<div class="wrapper">
+    <div class="container-fluid" style="padding-right: 0px">
+        <div class="row-fluid">
+            <div class="span3"><center><div id="logo"></div></center></div>
+            <div class="span9" >
+                <div id="TopBanner"></div>
             </div>
         </div>
+    </div>
 
         <div id="Loading" class="popup_bg"></div>
 
@@ -77,18 +74,12 @@ function initial(){
                                         <table width="100%" cellpadding="4" cellspacing="0" class="table">
                                             <tr>
                                                 <td style="border-top: 0 none; padding-bottom: 0px;">
-                                                    <textarea rows="21" class="span12"
-                                                        style="height:377px; font-family:'Courier New', Courier, mono; font-size:13px;"
-                                                        readonly="readonly" wrap="off"
-                                                        id="textarea"><% nvram_dump("frpc.log",""); %></textarea>
+                                                    <textarea rows="23" class="span12" style="height:403px; font-family:'Courier New', Courier, mono; font-size:13px;" readonly="readonly" wrap="off"><% nvram_dump("frpc.log",""); %></textarea>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="text-align: left; padding-bottom: 0px;">
-                                                    <input type="button" onClick="location.href=location.href"
-                                                        value="<#CTL_refresh#>" class="btn btn-primary btn-refreshlog">
-                                                    <input type="button" onClick="location.href='frpc.log'"
-                                                        value="<#CTL_onlysave#>" class="btn btn-success btn-savelog">
+                                                <td style="text-align: right; padding-bottom: 0px;">
+                                                    <input type="button" onClick="location.href=location.href" value="<#CTL_refresh#>" class="btn btn-primary" style="width: 219px;">
                                                 </td>
                                             </tr>
                                         </table>
