@@ -10,6 +10,8 @@
 
 frps界面开关需要的自己去把那部分注释删掉就可以了！ https://github.com/fightroad/Padavan-KVR/commit/01dedd47494696e7a2c4fde2204e69a17f3f8942
 
+测试ssp 绕过模式、全局、回国模式有问题，界面只保留了gfw模式！
+
 # 版本特点：
 
 1、mac系统打开页面响应慢的问题，适配手机页面，精简部分页面显示内容。
