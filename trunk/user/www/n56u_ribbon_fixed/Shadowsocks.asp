@@ -41,8 +41,7 @@
 			init_itoggle('ss_watchcat');
 			init_itoggle('ss_update_chnroute');
 			init_itoggle('ss_update_gfwlist');
-			init_itoggle('ss_turn');
-			init_itoggle('socks5_aenable');
+			init_itoggle('socks5_enable');
 			init_itoggle('ss_schedule_enable', change_on);
 			$j("#tab_ss_cfg, #tab_ss_add, #tab_ss_dlink, #tab_ss_ssl, #tab_ss_cli, #tab_ss_log, #tab_ss_help").click(
 				function () {
@@ -216,6 +215,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			showhide_div('row_v2_vid', 0);
 			showhide_div('row_v2_webs_host', 0);
 			showhide_div('row_v2_webs_path', 0);
+			showhide_div('row_v2_grpc_path', 0);
 			showhide_div('row_s5_enable', 0);
 			showhide_div('row_s5_username', 0);
 			showhide_div('row_s5_password', 0);
@@ -297,6 +297,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			} else if (b == "ws") {
 				showhide_div('row_v2_webs_host', 1);
 				showhide_div('row_v2_webs_path', 1);
+			} else if (b == "grpc") {
+				showhide_div('row_v2_grpc_path', 1);
 			} else if (b == "h2") {
 				showhide_div('row_v2_http2_host', 1);
 				showhide_div('row_v2_http2_path', 1);
@@ -696,7 +698,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			document.getElementById("ssp_insecure").checked = false;				
 			document.getElementById("v2_mux").value = 0;
 			document.getElementById("v2_mux").checked = false;
-			document.getElementById("v2_security").value = 'zero';
+			document.getElementById("v2_security").value = 'none';
 			document.getElementById("v2_vmess_id").value = '';
 			document.getElementById("v2_alter_id").value = '';
 			document.getElementById("v2_transport").value = 'tcp';
@@ -718,6 +720,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			//v2 ws
 			document.getElementById("v2_ws_host").value = '';
 			document.getElementById("v2_ws_path").value = '';
+						//v2 grpc
+						document.getElementById("v2_grpc_path").value = '';
 			//v2 h2
 			document.getElementById("v2_h2_host").value = '';
 			document.getElementById("v2_h2_path").value = '';
@@ -779,6 +783,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				} else if (transport == "ws") {
 					document.getElementById("v2_ws_host").value = getProperty(ss, 'ws_host', '');
 					document.getElementById("v2_ws_path").value = getProperty(ss, 'ws_path', '');
+				} else if (transport == "grpc") {
+					document.getElementById("v2_grpc_path").value = getProperty(ss, 'grpc_path', '');
 				} else if (transport == "h2") {
 					document.getElementById("v2_h2_host").value = getProperty(ss, 'h2_host', '');
 					document.getElementById("v2_h2_path").value = getProperty(ss, 'h2_path', '');
@@ -956,7 +962,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 			var s = document.getElementById(urlname + '-status');
 			if (!s)
 				return false;
-			var ssrurl = prompt("在这里黏贴配置链接 ssr:// | ss:// | vmess:// | vless:// | trojan://", "");
+				var ssrurl = prompt("在这里粘贴配置链接 ssr:// | ss:// | vmess:// | vless:// | trojan://", "");
 			if (ssrurl == null || ssrurl == "") {
 				s.innerHTML = "<font color='red'>用户取消</font>";
 				return false;
@@ -1049,9 +1055,10 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				if (param != undefined) {
 				document.getElementById('ssp_name').value = decodeURI(param);
 				}				
-				s.innerHTML = "<font color='green'>导入Shadowsocks配置信息成功</font>";					}
+				s.innerHTML = "<font color='green'>导入Shadowsocks配置信息成功</font>";
+				}
 			 else {
-				var sstr = b64decsafe(url0);
+				var sstr = b64decsafe(url0);			
 				document.getElementById('ssp_type').value = "ss";
 				document.getElementById('ssp_type').dispatchEvent(event);
 				var team = sstr.split('@');
@@ -1132,8 +1139,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					 if (ssm.path != undefined){
 					            document.getElementById('v2_http_path').value = ssm.path;
 						}
-					    else
-					    	{
+					    else {
 						    document.getElementById('v2_http_path').value = '/';
 						}
 				} 
@@ -1141,7 +1147,10 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 					document.getElementById('v2_ws_host').value = ssm.host;
 					document.getElementById('v2_ws_path').value = ssm.path;
 				}
-				if (ssm.net == "h2") {
+				if (ssm.net == "grpc") {
+					document.getElementById('v2_grpc_path').value = ssm.path;
+				}
+								if (ssm.net == "h2") {
 					document.getElementById('v2_h2_host').value = ssm.host;
 					document.getElementById('v2_h2_path').value = ssm.path;
 				}
@@ -1203,6 +1212,9 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				if (queryParam.type == "ws") {
 					document.getElementById('v2_ws_host').value = queryParam.host;
 					document.getElementById('v2_ws_path').value =  queryParam.path;
+				}
+				if (queryParam.type == "grpc") {
+					document.getElementById('v2_grpc_path').value =  queryParam.serviceName;
 				}
 				if (queryParam.type == "h2") {
 					document.getElementById('v2_h2_host').value = queryParam.host;
@@ -1363,6 +1375,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 				} else if (document.getElementById("v2_transport").value == "ws") {
 					DataObj.ws_host = document.getElementById("v2_ws_host").value;
 					DataObj.ws_path = document.getElementById("v2_ws_path").value;
+				} else if (document.getElementById("v2_transport").value == "grpc") {
+					DataObj.grpc_path = document.getElementById("v2_grpc_path").value;
 				} else if (document.getElementById("v2_transport").value == "h2") {
 					DataObj.h2_host = document.getElementById("v2_h2_host").value;
 					DataObj.h2_path = document.getElementById("v2_h2_path").value;
@@ -1735,9 +1749,9 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														<td>
 															<select name="tunnel_forward" class="input"
 																style="width: 200px;">
-																<option value="8.8.4.4#53">Google Public DNS (8.8.4.4)
-																</option>
 																<option value="8.8.8.8#53">Google Public DNS (8.8.8.8)
+																</option>		
+																<option value="8.8.4.4#53">Google Public DNS (8.8.4.4)
 																</option>
 																<option value="208.67.222.222#53">OpenDNS
 																	(208.67.222.222)</option>
@@ -1796,7 +1810,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														<td colspan="3">
 															<i class="icon-hand-right"></i> <a
 																href="javascript:spoiler_toggle('script19')"><span>订阅地址(一行一个地址):</span></a>
-															<div id="script19">
+															<div id="script19" style="display: none">
 																<textarea rows="8" wrap="off" spellcheck="false"
 																	maxlength="314571" class="span12"
 																	name="scripts.ss_dlink.sh"
@@ -2083,7 +2097,6 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															</td>
 														</tr>
 														<!--SSR参数结束-->
-														</tbody>
 														<tr id="row_s5_enable" style="display:none;">
 															<th>启用用户名/密码认证</th>
 															<td>
@@ -2150,6 +2163,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 																	<option value="tcp">TCP</option>
 																	<option value="kcp">mKCP</option>
 																	<option value="ws">WebSocket</option>
+																	<option value="grpc">GRPC</option>
 																	<option value="h2">HTTP/2</option>
 																	<option value="quic">QUIC</option>
 																</select>
@@ -2254,6 +2268,15 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 																	name="v2_ws_path" id="v2_ws_path"
 																	style="width: 200px"
 																	value="<% nvram_get_x("","v2_webs_path_x_0"); %>" />
+																																</td>
+														</tr>
+													</tr>
+													<tr id="row_v2_grpc_path" style="display:none;">
+														<th width="50%">GRPC Path (serviceName)</th>
+														<td>
+															<input type="text" class="input" size="15"
+																name="v2_grpc_path" id="v2_grpc_path"
+																style="width: 200px" value="" />
 															</td>
 														</tr>
 														<tr id="row_v2_http2_host" style="display:none;">
@@ -2382,8 +2405,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 											<div id="wnd_ss_ssl" style="display:none">
 												<table width="100%" cellpadding="4" cellspacing="0" class="table">
 													<tr>
-														<th colspan="2" style="background-color: #E3E3E3;">节点故障自动切换设置
-														</th>
+														<th colspan="2" style="background-color: #E3E3E3;">服务守护设置</th>
 													</tr>
 													<tr>
 														<th>启用进程自动守护</th>
@@ -2404,36 +2426,6 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 																		<% nvram_match_x("", "ss_watchcat", "0", "checked"); %>>
 																	<#checkbox_No#>
 															</div>
-														</td>
-													</tr>
-													<!--  <tr> <th>启用自动切换</th>
-<td>
-<div class="main_itoggle">
-<div id="ss_turn_on_of">
-<input type="checkbox" id="ss_turn_fake" <% nvram_match_x("", "ss_turn", "1", "value=1 checked"); %><% nvram_match_x("", "ss_turn", "0", "value=0"); %>>
-</div>
-</div>
-<div style="position: absolute; margin-left: -10000px;">
-<input type="radio" value="1" name="ss_turn" id="ss_turn_1" <% nvram_match_x("", "ss_turn", "1", "checked"); %>><#checkbox_Yes#>
-<input type="radio" value="0" name="ss_turn" id="ss_turn_0" <% nvram_match_x("", "ss_turn", "0", "checked"); %>><#checkbox_No#>
-</div>
-</td>
-</tr>
--->
-													<tr>
-														<th width="50%">自动切换检查周期(秒)</th>
-														<td>
-															<input type="text" class="input" size="15" name="ss_turn_s"
-																style="width: 200px"
-																value="<% nvram_get_x("","ss_turn_s"); %>" />
-														</td>
-													</tr>
-													<tr>
-														<th width="50%">切换检查超时时间(秒)</th>
-														<td>
-															<input type="text" class="input" size="15" name="ss_turn_ss"
-																style="width: 200px"
-																value="<% nvram_get_x("", "ss_turn_ss"); %>">
 														</td>
 													</tr>
 													<!--
@@ -2502,7 +2494,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 													<tr>
 														<th width="50%">自定义国内IP更新地址:</th>
 														<td>
-															<input type="text" class="input" size="15"
+															<input type="text" class="input" size="20"
 																name="ss_chnroute_url" style="width: 200px"
 																value="<% nvram_get_x("","ss_chnroute_url"); %>" />
 														</td>
@@ -2548,6 +2540,15 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														</td>
 													</tr>
 													<tr>
+														<th width="50%">自定义GFW更新地址:</th>
+														<td>
+															<input type="text" class="input" size="20"
+																name="ss_gfwlist_url" style="width: 200px"
+																value="<% nvram_get_x("","ss_gfwlist_url"); %>" />
+														</td>
+													</tr>
+													<tr>
+													<tr>
 														<th>
 															<#menu5_16_19#>
 														</th>
@@ -2576,7 +2577,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															<i class="icon-hand-right"></i> <a
 																href="javascript:spoiler_toggle('script8')"><span>不走SS代理的LAN
 																	IP:</span></a>
-															<div id="script8">
+															<div id="script8" style="display: none">
 																<textarea rows="8" wrap="off" spellcheck="false"
 																	maxlength="314571" class="span12"
 																	name="scripts.ss_lan_ip.sh"
@@ -2589,7 +2590,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															<i class="icon-hand-right"></i> <a
 																href="javascript:spoiler_toggle('script9')"><span>强制走SS代理的LAN
 																	IP:</span></a>
-															<div id="script9">
+															<div id="script9" style="display: none">
 																<textarea rows="8" wrap="off" spellcheck="false"
 																	maxlength="314571" class="span12"
 																	name="scripts.ss_lan_bip.sh"
@@ -2600,8 +2601,8 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 													<tr>
 														<td colspan="3">
 															<i class="icon-hand-right"></i> <a
-																href="javascript:spoiler_toggle('script8')"><span>游戏模式LAN IP（客户端UDP所有端口,TCP跟随主服务器端口模式,强制走绕过大陆模式）:</span></a>
-															<div id="script8">
+															href="javascript:spoiler_toggle('script13')"><span>游戏模式LAN IP（客户端UDP所有端口,TCP跟随主服务器端口模式,强制走绕过大陆模式）:</span></a>
+															<div id="script13" style="display: none">
 																<textarea rows="8" wrap="off" spellcheck="false"
 																	maxlength="314571" class="span12"
 																	name="scripts.ss_lan_gmip.sh"
@@ -2614,7 +2615,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															<i class="icon-hand-right"></i> <a
 																href="javascript:spoiler_toggle('script11')"><span>强制走SS代理的WAN
 																	IP:</span></a>
-															<div id="script11">
+																	<div id="script11" style="display: none">
 																<textarea rows="8" wrap="off" spellcheck="false"
 																	maxlength="314571" class="span12"
 																	name="scripts.ss_ip.sh"
@@ -2627,7 +2628,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 															<i class="icon-hand-right"></i> <a
 																href="javascript:spoiler_toggle('script12')"><span>不走SS代理的WAN
 																	IP:</span></a>
-															<div id="script12">
+																	<div id="script12" style="display: none">
 																<textarea rows="8" wrap="off" spellcheck="false"
 																	maxlength="314571" class="span12"
 																	name="scripts.ss_wan_ip.sh"
@@ -2639,7 +2640,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														<td colspan="3">
 															<i class="icon-hand-right"></i> <a
 																href="javascript:spoiler_toggle('script10')"><span>强制走SS代理的域名:</span></a>
-															<div id="script10">
+															<div id="script10" style="display: none">
 																<textarea rows="8" wrap="off" spellcheck="false"
 																	maxlength="314571" class="span12"
 																	name="scripts.ss_dom.sh"
@@ -2651,7 +2652,7 @@ setTimeout('document.getElementById("btn_ctime").style.display="none";',1000);
 														<td colspan="3">
 															<i class="icon-hand-right"></i> <a
 																href="javascript:spoiler_toggle('script15')"><span>不走SS代理的域名:</span></a>
-															<div id="script15">
+															<div id="script15" style="display: none">
 																<textarea rows="8" wrap="off" spellcheck="false"
 																	maxlength="314571" class="span12"
 																	name="scripts.uss_dom.sh"
