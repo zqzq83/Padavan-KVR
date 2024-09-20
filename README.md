@@ -32,7 +32,7 @@ frps界面开关需要的自己去把那部分注释删掉就可以了！ https:
 zerotier 使用技巧：
 
 1、ap模式下如果想要其他zerotier端可以访问ap网段
-#在padavan开机脚本里开启ap模式下的ip转发功能，虚拟网段改成你自己实际的。
+在padavan开机脚本里开启ap模式下的ip转发功能，虚拟网段改成你自己实际的。
 ```
 sysctl -w net.ipv4.ip_forward=1
 iptables -t nat -A POSTROUTING -s 10.11.12.0/24 -j MASQUERADE
